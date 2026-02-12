@@ -3,7 +3,7 @@ import logging
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
 import os
-
+import sys
 
 load_dotenv()
 
@@ -128,7 +128,12 @@ class S3Client:
 
 
 def main():
-    file_path = "webhighlights-backup-20260206-094850.json"
+    
+    if len(sys.argv) > 1:
+        file_path = sys.argv[1]
+    else:
+        file_path = input("Enter the file path (e.g., ./data.txt or C:/Users/name/file.txt): ")
+        
     client = S3Client(file_path)
     client.safely_upload()
 
